@@ -1,0 +1,50 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<p>
+<form method="get" action="/search">
+    <input type="text" id="searchTerm" name="searchTerm" th:value="${context.request().params().get('searchTerm')}"/>
+    <input type="submit" value="Search"/>
+</form>
+</p>
+
+<div th:if="${users} != null">
+    <h1>Result : Users list</h1>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">user-id</td>
+            <td th:text="${user.name}">user-name</td>
+        </tr>
+        <tr>
+            <td>
+                <div th:if="${context.get('previous-offset')} != null">
+                    <a href="#" th:href="@{~/search(searchTerm=${context.request().params().get('searchTerm')}, offset=${context.get('previous-offset')})}">
+                        prev
+                    </a>
+                </div>
+            </td>
+            <td>
+                <div th:if="${context.get('next-offset')} != null">
+                    <a href="#" th:href="@{~/search(searchTerm=${context.request().params().get('searchTerm')}, offset=${context.get('next-offset')})}">
+                        next
+                    </a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+
+</html>
